@@ -1,23 +1,26 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof (Rigidbody2D))]
-[RequireComponent (typeof (SpriteRenderer))]
-public class Weapon : MonoBehaviour
+public class Weapon : NetworkBehaviour
 {
     [HideInInspector]
     public Rigidbody2D rb2d;
-    [HideInInspector]
-    public SpriteRenderer spriteRenderer;
     public float damage;
     public float range = 300f;
     public float rotationOffset = 5f;
+    public SpriteRenderer spriteRenderer;
 
-    public void Start()
+    public void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        Debug.Log("WEAPON ROTATION" + rb2d.rotation);
     }
 
     public void Equip()

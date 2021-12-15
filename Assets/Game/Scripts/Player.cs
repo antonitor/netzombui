@@ -10,16 +10,22 @@ public class Player : NetworkBehaviour
     public Animator animator;
     float upDown = -1f;
     Vector2 movement;
+    public Weapon weapon;
+    public Camera cam;
+    Vector2 mousePosition;
 
     private void Update()
     {
-        if (isLocalPlayer)
-        {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
+        if (!isLocalPlayer)
+            return;
 
-            animateCharacter();
-        }
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
+        mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+
+        animateCharacter();
+
     }
 
     private void FixedUpdate()
@@ -32,7 +38,16 @@ public class Player : NetworkBehaviour
         {
             rb2d.velocity = new Vector2(movement.x * Time.fixedDeltaTime * moveSpeed, movement.y * Time.fixedDeltaTime * moveSpeed);
         }
+
+        Vector2 lookDirecction = mousePosition - weapon.rb2d.position;
+        float angle = Mathf.Atan2(lookDirecction.y, lookDirecction.x) * Mathf.Rad2Deg;
+        weapon.rb2d.rotation = angle;
+
+        Vector2 offsetVector = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+        Vector2 weaponPoss = offsetVector * weapon.rotationOffset + rb2d.position;
+        weapon.rb2d.position = weaponPoss;
     }
+
 
     void animateCharacter()
     {
