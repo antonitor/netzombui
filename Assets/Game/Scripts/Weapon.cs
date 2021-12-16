@@ -6,17 +6,11 @@ using UnityEngine;
 [RequireComponent (typeof (Rigidbody2D))]
 public class Weapon : NetworkBehaviour
 {
-    [HideInInspector]
     public Rigidbody2D rb2d;
     public float damage;
     public float range = 300f;
-    public float rotationOffset = 5f;
     public SpriteRenderer spriteRenderer;
 
-    public void Awake()
-    {
-        rb2d = GetComponent<Rigidbody2D>();
-    }
 
     private void Update()
     {

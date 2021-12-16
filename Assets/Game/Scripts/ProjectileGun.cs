@@ -14,8 +14,9 @@ public class ProjectileGun : Weapon
     // Update is called once per frame
     void Update()
     {
-        if (CanShoot())
+        /*if (CanShoot())
             Shoot();
+    */
     }
 
     private void Shoot()

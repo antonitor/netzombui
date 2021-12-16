@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8127100855253099498}
   - component: {fileID: 2723602769493232638}
   - component: {fileID: 4432867787993624167}
-  m_Layer: 0
+  - component: {fileID: 9044859396558559656}
+  m_Layer: 7
   m_Name: Beretta
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 579862250168779986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8559759, y: 0.6424605, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2348852303172499890}
@@ -43,13 +44,13 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 579862250168779986}
-  m_BodyType: 1
-  m_Simulated: 0
+  m_BodyType: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -70,10 +71,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  rb2d: {fileID: 0}
+  rb2d: {fileID: 8127100855253099498}
   damage: 0
   range: 300
-  rotationOffset: 5
   spriteRenderer: {fileID: 293114467969593081}
   _bulletPrefab: {fileID: 543983006875703459, guid: 0aa76c12c4caad643a37fbd76802242f, type: 3}
   _shootingPoint: {fileID: 7929903192904248046}
@@ -95,6 +95,36 @@ MonoBehaviour:
   visible: 0
   m_AssetId: d80eaa0cfea25614bbb90eb2d6eb6ab3
   hasSpawned: 0
+--- !u!114 &9044859396558559656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579862250168779986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  target: {fileID: 4871885937220502591, guid: 9f0df615bb482fd4a829604a69bbbbbd, type: 3}
 --- !u!1 &2951707115276193443
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2348852303172499890}
   - component: {fileID: 293114467969593081}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: beretta_model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,9 +193,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 734152157
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7834802711767081893, guid: 069484eb558e82244a664bcd548e45c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -186,7 +216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7929903192904248046}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: firePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

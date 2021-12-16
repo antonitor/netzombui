@@ -8,11 +8,19 @@ public class Player : NetworkBehaviour
     public Rigidbody2D rb2d;
     public float moveSpeed = 200f;
     public Animator animator;
+    public List<GameObject> weaponList;
+    public SpriteRenderer model;
     float upDown = -1f;
     Vector2 movement;
-    public Weapon weapon;
-    public Camera cam;
+    Weapon weapon;
+    Camera cam;
     Vector2 mousePosition;
+
+    private void Start()
+    {
+        cam = Camera.main;
+        CmdSpawnWeapon(0);
+    }
 
     private void Update()
     {
@@ -38,22 +46,52 @@ public class Player : NetworkBehaviour
         {
             rb2d.velocity = new Vector2(movement.x * Time.fixedDeltaTime * moveSpeed, movement.y * Time.fixedDeltaTime * moveSpeed);
         }
+        if (weapon)
+        {
+            Vector2 lookDirecction = mousePosition - weapon.rb2d.position;
+            float angle = Mathf.Atan2(lookDirecction.y, lookDirecction.x) * Mathf.Rad2Deg;
+            Debug.Log("ANGLE " + angle);
+            weapon.rb2d.rotation = angle;
+            weapon.rb2d.position = rb2d.position;
+            animateWeapon(angle);
+        }
 
-        Vector2 lookDirecction = mousePosition - weapon.rb2d.position;
-        float angle = Mathf.Atan2(lookDirecction.y, lookDirecction.x) * Mathf.Rad2Deg;
-        weapon.rb2d.rotation = angle;
-
-        Vector2 offsetVector = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
-        Vector2 weaponPoss = offsetVector * weapon.rotationOffset + rb2d.position;
-        weapon.rb2d.position = weaponPoss;
     }
 
+    [Command]
+    void CmdSpawnWeapon(int weapNum)
+    {
+        GameObject weaponPrefab = Instantiate(weaponList[weapNum], transform);
+        weapon = weaponPrefab.GetComponent<Weapon>();
+        weapon.transform.parent = transform;
+        NetworkServer.Spawn(weaponPrefab);
+    }
+
+    void animateWeapon(float angle)
+    {
+        if (angle > 0)
+        {
+            weapon.spriteRenderer.sortingOrder = -1;
+        }
+        else
+        {
+            weapon.spriteRenderer.sortingOrder = 1;
+        }
+        if (angle > -90 && angle < 90)
+        {
+            weapon.spriteRenderer.flipY = false;
+        }
+        else
+        {
+            weapon.spriteRenderer.flipY = true;
+        }
+    }
 
     void animateCharacter()
     {
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
-        Debug.Log("SCALE X" + transform.localScale.x);
+        //Debug.Log("SCALE X" + transform.localScale.x);
 
         if (movement.y > 0)
         {
@@ -67,16 +105,20 @@ public class Player : NetworkBehaviour
         if (movement.x > 0)
         {
             if (upDown < 0)
-                transform.localScale = new Vector3(-1, 1, 1);
+                //model.transform.localScale = new Vector3(-1, 1, 1);
+                model.flipX = true;
             if (upDown > 0)
-                transform.localScale = new Vector3(1, 1, 1);
+                //model.transform.localScale = new Vector3(1, 1, 1);
+                model.flipX = false;
         }
         if (movement.x < 0)
         {
             if (upDown < 0)
-                transform.localScale = new Vector3(1, 1, 1);
+                //model.transform.localScale = new Vector3(1, 1, 1);
+                model.flipX = false;
             if (upDown > 0)
-                transform.localScale = new Vector3(-1, 1, 1);
+                //model.transform.localScale = new Vector3(-1, 1, 1);
+                model.flipX = true;
         }
         animator.SetFloat("Vertical", upDown);
     }
