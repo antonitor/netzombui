@@ -5,19 +5,18 @@ using UnityEngine;
 
 public class ProjectileGun : Weapon
 {
-    float _nextShootTime;
-    [SerializeField] GameObject _bulletPrefab;
-    [SerializeField] Transform _shootingPoint;
-    [SerializeField] float _shootDelay = 0.2f;
+   
+    [SerializeField] 
+    private GameObject _bulletPrefab;
 
+    [SerializeField]
+    private Transform _shootingPoint;
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*if (CanShoot())
-            Shoot();
-    */
-    }
+    [SerializeField]
+    private float _shootDelay = 0.2f;
+
+    private float _nextShootTime;
+
 
     private void Shoot()
     {

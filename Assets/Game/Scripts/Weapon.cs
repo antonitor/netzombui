@@ -1,35 +1,48 @@
-using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof (Rigidbody2D))]
-public class Weapon : NetworkBehaviour
+public class Weapon : MonoBehaviour
 {
-    public Rigidbody2D rb2d;
-    public float damage;
-    public float range = 300f;
-    public SpriteRenderer spriteRenderer;
+    [SerializeField]
+    protected float damage = 10;
 
+    [SerializeField]
+    protected float range = 300f;
+
+    [SerializeField]
+    protected SpriteRenderer spriteRenderer;
+
+    [SerializeField]
+    public Bullet bulletPrefab;
+
+    [SerializeField]
+    public Transform fireSpawnPoint;
+
+    private Transform parent;
+
+    private void Awake()
+    {
+        parent = gameObject.GetComponentInParent<Transform>();
+    }
 
     private void Update()
     {
-        Debug.Log("WEAPON ROTATION" + rb2d.rotation);
+        //Debug.Log(parent.rotation.eulerAngles.z);
+        if (parent.rotation.eulerAngles.z > 90 && parent.rotation.eulerAngles.z < 270)
+        {
+            spriteRenderer.flipY = true;
+        }
+        else
+        {
+            spriteRenderer.flipY = false;
+        }
+        if (parent.rotation.eulerAngles.z > 0 && parent.rotation.eulerAngles.z < 180)
+        {
+            spriteRenderer.sortingOrder = -1;
+        }
+        else
+        {
+            spriteRenderer.sortingOrder = 2;
+        }
     }
-
-    public void Equip()
-    {
-        Debug.Log("Equiped " + gameObject.name);
-    }   
-    public void Unequip()
-    {
-        Debug.Log("Un-Equiped " + gameObject.name);
-    }
-
-    public virtual void Attack()
-    {
-        Debug.Log("ATTACK!");
-    }
-
 
 }

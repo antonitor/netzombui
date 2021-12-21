@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4684348648619209880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5515272037170877186}
+  m_Layer: 7
+  m_Name: RightHand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5515272037170877186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4684348648619209880}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0.166, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4871885937220502591}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4871885937220502590
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,9 +42,11 @@ GameObject:
   - component: {fileID: 4871885937220502587}
   - component: {fileID: 4871885937220502586}
   - component: {fileID: 4871885937220502589}
-  - component: {fileID: 4871885937220502588}
   - component: {fileID: 2233171147226448560}
+  - component: {fileID: 981760486244759984}
   - component: {fileID: 8172560248804623454}
+  - component: {fileID: 3499425901031069745}
+  - component: {fileID: 7807492877736212065}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -34,6 +66,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4871885938296206366}
+  - {fileID: 5515272037170877186}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -91,26 +124,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 9f0df615bb482fd4a829604a69bbbbbd
   hasSpawned: 0
---- !u!114 &4871885937220502588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4871885937220502590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f52e53635540754419c68b927e956e21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  rb2d: {fileID: 4871885937220502587}
-  moveSpeed: 200
-  animator: {fileID: 4871885938296206368}
-  weaponList:
-  - {fileID: 579862250168779986, guid: d80eaa0cfea25614bbb90eb2d6eb6ab3, type: 3}
-  model: {fileID: 4871885938296206369}
 --- !u!114 &2233171147226448560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +153,36 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &981760486244759984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4871885937220502590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  sendInterval: 0.05
+  syncPosition: 0
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  target: {fileID: 5515272037170877186}
 --- !u!114 &8172560248804623454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +199,44 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   animator: {fileID: 4871885938296206368}
+--- !u!114 &3499425901031069745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4871885937220502590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9accd1cfe527e0b429a21d546015a39b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  rb2d: {fileID: 4871885937220502587}
+  moveSpeed: 200
+  animator: {fileID: 4871885938296206368}
+  model: {fileID: 4871885938296206369}
+--- !u!114 &7807492877736212065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4871885937220502590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5dac9bdbf02ce439f2040198899ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  rightHand: {fileID: 4684348648619209880}
+  weaponList:
+  - {fileID: 3353858428912930134, guid: d80eaa0cfea25614bbb90eb2d6eb6ab3, type: 3}
+  - {fileID: 4058143901537793239, guid: 7299c3ba147f4b9439d2300ff076423c, type: 3}
+  weapon: {fileID: 0}
+  equipedWeapon: 0
 --- !u!1 &4871885938296206371
 GameObject:
   m_ObjectHideFlags: 0

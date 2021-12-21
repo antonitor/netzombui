@@ -21,10 +21,10 @@ public class Gun : Weapon
         }
     }
 
-    public override void Attack()
+    public void Attack()
     {
         fireParticleSystem.Play();
-        Vector2 direction = RadianToVector2(rb2d.rotation * Mathf.Deg2Rad);
+        Vector2 direction = RadianToVector2(transform.rotation.z * Mathf.Deg2Rad);
         RaycastHit2D hit = Physics2D.Raycast(firePoint.position, direction, range);
 
         Debug.DrawRay(firePoint.position, direction, Color.red, 0.5f);
