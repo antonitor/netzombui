@@ -10,10 +10,10 @@ public class Bullet : NetworkBehaviour
     private float destroyAfter = 2f;
 
     [SerializeField]
-    private Rigidbody2D rb2d;
+    public Rigidbody2D rb2d;
 
     [SerializeField]
-    private float force = 1000f;
+    public float force = 1000f;
 
     public override void OnStartServer()
     {
@@ -22,7 +22,7 @@ public class Bullet : NetworkBehaviour
 
     private void Start()
     {
-        rb2d.AddForce(new Vector2(transform.forward.x, transform.forward.y) * force);
+        rb2d.AddForce(new Vector2(transform.forward.x, transform.forward.y) * force, ForceMode2D.Impulse);
     }
 
     [Server]
@@ -34,8 +34,10 @@ public class Bullet : NetworkBehaviour
     // ServerCallback because we don't want a warning if OnTriggerEnter is
     // called on the client
     [ServerCallback]
-    void OnTriggerEnter(Collider co)
+    private void OnTriggerEnter2D(Collider2D coll)
     {
-        NetworkServer.Destroy(gameObject);
+        Debug.Log(coll.gameObject.GetComponent<Bullet>() != null);
+        if (coll.gameObject.GetComponent<Bullet>() == null)
+            NetworkServer.Destroy(gameObject);
     }
 }

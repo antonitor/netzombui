@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8682792960290252146}
   - component: {fileID: 5754083414197917583}
   - component: {fileID: -5979302111617666613}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -69,8 +69,8 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Interpolate: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &8682792960290252146
@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2309286366260893590}
   - component: {fileID: 5321390831900391224}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: bullet_model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
