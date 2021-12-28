@@ -3,7 +3,9 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [SerializeField]
-    protected float damage = 10;
+    protected int damage = 10;
+
+    public int Damage => damage;
 
     [SerializeField]
     protected float range = 300f;

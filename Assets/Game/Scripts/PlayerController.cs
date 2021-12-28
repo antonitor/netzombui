@@ -16,6 +16,11 @@ public class PlayerController : NetworkBehaviour
     //player movement
     private Vector2 movement;
 
+    [SerializeField] 
+    private int _playerNumber = 1;
+
+    public int PlayerNumber => _playerNumber;
+
     [SerializeField]
     private Rigidbody2D rb2d;
 

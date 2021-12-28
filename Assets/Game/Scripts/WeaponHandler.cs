@@ -52,7 +52,8 @@ public class WeaponHandler : NetworkBehaviour
     private void CmdFire()
     {
         Bullet bullet = Instantiate(weapon.bulletPrefab, weapon.fireSpawnPoint.position, rightHand. transform.rotation);
-        //bullet.rb2d.velocity = new Vector2(bullet.transform.forward.x, bullet.transform.forward.y) * bullet.force;
+        bullet.SetWeaponHandler(this);
+        bullet.SetBulletDamage(weapon.Damage);
         NetworkServer.Spawn(bullet.gameObject);
         RpcOnFire();
     }
