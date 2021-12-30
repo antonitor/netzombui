@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,7 @@ TagManager:
     locked: 0
   - name: Character
     uniqueID: 734152157
+    locked: 0
+  - name: HUD
+    uniqueID: 3187211947
     locked: 0

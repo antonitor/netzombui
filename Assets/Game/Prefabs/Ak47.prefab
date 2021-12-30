@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7774f8e451fbc674f847adba89b60b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 20
   range: 300
   spriteRenderer: {fileID: 2307743934163709105}
   bulletPrefab: {fileID: -5979302111617666613, guid: 0aa76c12c4caad643a37fbd76802242f, type: 3}

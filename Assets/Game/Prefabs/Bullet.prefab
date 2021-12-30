@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5081672935885380399}
   - component: {fileID: 1048544402248922015}
   - component: {fileID: 8682792960290252146}
-  - component: {fileID: 5754083414197917583}
   - component: {fileID: 5461562535901545177}
   - component: {fileID: -5979302111617666613}
   m_Layer: 7
@@ -47,7 +46,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -91,35 +90,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 0aa76c12c4caad643a37fbd76802242f
   hasSpawned: 0
---- !u!114 &5754083414197917583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543983006875703459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 0
-  sendInterval: 0.05
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!114 &5461562535901545177
 MonoBehaviour:
   m_ObjectHideFlags: 0

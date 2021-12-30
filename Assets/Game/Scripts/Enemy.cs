@@ -1,5 +1,6 @@
 using Mirror;
 using Pathfinding;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,15 +14,42 @@ public class Enemy : NetworkBehaviour
     private Rigidbody2D rb2d;
 
     [SerializeField]
-    private AIDestinationSetter destSetter;
+    private SpriteRenderer model;
+
+    [SerializeField]
+    private AIDestinationSetter AIDestinationSetter;
+
+    [SerializeField]
+    private AIPath AIPath;
+
+    [SyncVar(hook = nameof(OnChangeLookingRight))]
+    private bool enemyLookingRight = false;
+
+    private void OnChangeLookingRight(bool _, bool newLookingRightState)
+    {
+        model.flipX = newLookingRightState;
+    }
 
 
     private void Start()
     {
         if (!isServer) return;
         GameObject player = FindObjectOfType<PlayerController>().gameObject;
-        Debug.Log(player.name);
-        destSetter.target = player.transform;
+        AIDestinationSetter.target = player.transform;
+    }
+
+    private void Update()
+    {
+        if (!isServer) return;
+        if (AIPath.desiredVelocity.x > .01f && !enemyLookingRight)
+        {
+            enemyLookingRight = true;
+        }
+        if (AIPath.desiredVelocity.x < .01f && enemyLookingRight)
+        {
+            enemyLookingRight = false;
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -32,4 +60,5 @@ public class Enemy : NetworkBehaviour
             Debug.Log("ZOMBIE DAMAGE");
         }
     }
+
 }

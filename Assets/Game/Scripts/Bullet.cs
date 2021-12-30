@@ -40,19 +40,23 @@ public class Bullet : NetworkBehaviour
     // ServerCallback because we don't want a warning if OnTriggerEnter is
     // called on the client
     [ServerCallback]
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!isServer) return;
         if (_triggered) return;
         _triggered = true;
 
-        Enemy enemy = coll.gameObject.GetComponent<Enemy>();
+        Enemy enemy = collision.collider.gameObject.GetComponent<Enemy>();
         if (enemy)
         {
             Debug.Log("ENEMY HIT");
-            enemy.GetComponent<Health>().TakeDamage(_damage, _weaponHandler.gameObject.GetComponent<PlayerController>().PlayerNumber);
-        }
-        if (coll.gameObject.GetComponent<Bullet>() == null)
+            enemy.GetComponent<Health>().TakeDamage(collision.transform.position ,_damage, _weaponHandler.gameObject.GetComponent<PlayerController>().PlayerNumber);
             NetworkServer.Destroy(gameObject);
+        }
+        else if (collision.collider.gameObject.GetComponent<Bullet>() == null)
+        { 
+            NetworkServer.Destroy(gameObject);
+        }
     }
 
     public void SetWeaponHandler(WeaponHandler weaponHandler) => _weaponHandler = weaponHandler;

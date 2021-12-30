@@ -7,6 +7,9 @@ public class Health : MonoBehaviour
     [SerializeField]
     private int health = 40;
 
+    [SerializeField]
+    private ParticleSystem hitEffect;
+
     private int currentHealth;
 
     void Start()
@@ -14,9 +17,11 @@ public class Health : MonoBehaviour
         currentHealth = health;
     }
 
-    public void TakeDamage(int amount, int playerNumber)
+    public void TakeDamage(Vector3 impactPoint, int amount, int playerNumber)
     {
         currentHealth -= amount;
+        hitEffect.transform.position = impactPoint;
+        hitEffect.Play();
         //instantiate hit effect
         //play audio source
 
