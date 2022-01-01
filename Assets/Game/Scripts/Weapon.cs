@@ -8,7 +8,16 @@ public class Weapon : MonoBehaviour
     public int Damage => damage;
 
     [SerializeField]
-    protected float range = 300f;
+    public float bulletLife = 3.0f;
+
+    [SerializeField]
+    public float bulletSpeed = 15.0f;
+
+    [SerializeField]
+    public float weaponCooldown = 1.0f;
+
+    [SerializeField]
+    public int weaponAmmo = 30;
 
     [SerializeField]
     protected SpriteRenderer spriteRenderer;
@@ -17,7 +26,7 @@ public class Weapon : MonoBehaviour
     public Bullet bulletPrefab;
 
     [SerializeField]
-    public Transform fireSpawnPoint;
+    public Transform weaponfirePosition;
 
     private Transform parent;
 

@@ -21,7 +21,7 @@ public class Health : MonoBehaviour
     {
         currentHealth -= amount;
         hitEffect.transform.position = impactPoint;
-        hitEffect.Play();
+        hitEffect.Play(true);
         //instantiate hit effect
         //play audio source
 

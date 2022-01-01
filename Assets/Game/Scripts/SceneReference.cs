@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kalashnikov : Gun
+public class SceneReference : MonoBehaviour
 {
-
+    public SceneScript sceneScript;
 }

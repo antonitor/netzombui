@@ -6,20 +6,52 @@ using UnityEngine;
 
 public class WeaponHandler : NetworkBehaviour
 {
+    private int selectedWeaponLocal = 1;
+    private Weapon activeWeapon;
+    private float weaponCooldownTime;
+
+    private SceneScript sceneScript;
+
+    [SerializeField]
+    private Weapon[] weaponArray;
+
+    [SyncVar(hook = nameof(OnWeaponChanged))]
+    public int activeWeaponSynced = 1;
+    private void OnWeaponChanged(int _Old, int _New)
+    {
+        if (0 < _Old && _Old < weaponArray.Length && weaponArray[_Old] != null)
+            weaponArray[_Old].gameObject.SetActive(false);
+        if (0 < _New && _New < weaponArray.Length && weaponArray[_New] != null)
+        {
+
+            weaponArray[_New].gameObject.SetActive(true);
+            activeWeapon = weaponArray[activeWeaponSynced].GetComponent<Weapon>();
+            if (isLocalPlayer)
+                sceneScript.UIAmmo(activeWeapon.weaponAmmo);
+        }
+    }
+
+
     [SerializeField]
     private GameObject rightHand;
 
-    [SerializeField]
-    private List<Weapon> weaponList;
-
-    [SerializeField]
-    private Weapon weapon;
-
-    [SyncVar(hook = nameof(OnChangeWeapon))]
-    public EquipedWeapon equipedWeapon;
-
     //to capture mouse prosition
     private Camera cam;
+
+    private void Awake()
+    {
+        sceneScript = GameObject.Find("SceneReference").GetComponent<SceneReference>().sceneScript;
+
+        foreach (var item in weaponArray)
+            if (item != null)
+                item.gameObject.SetActive(false);
+
+        if (selectedWeaponLocal < weaponArray.Length && weaponArray[selectedWeaponLocal] != null)
+        {
+            activeWeapon = weaponArray[selectedWeaponLocal].GetComponent<Weapon>();
+            sceneScript.UIAmmo(activeWeapon.weaponAmmo);
+        }
+    }
 
     void Start()
     {
@@ -33,82 +65,57 @@ public class WeaponHandler : NetworkBehaviour
         {
             SwapWeapon();
         }
-        if (equipedWeapon != EquipedWeapon.nothing)
+        if (0 < activeWeaponSynced && activeWeaponSynced < weaponArray.Length)
         {
             Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector2 lookDirecction = mousePosition - new Vector2(transform.position.x, transform.position.y);
             float weaponAngle = Mathf.Atan2(lookDirecction.y, lookDirecction.x) * Mathf.Rad2Deg;
             rightHand.transform.rotation = Quaternion.Euler(0, 0, weaponAngle);
-            
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+
+            if (Input.GetButtonDown("Fire1")) //Fire1 is mouse 1st click
             {
-                CmdFire();
+                if (activeWeapon && Time.time > weaponCooldownTime && activeWeapon.weaponAmmo > 0)
+                {
+                    weaponCooldownTime = Time.time + activeWeapon.weaponCooldown;
+                    activeWeapon.weaponAmmo -= 1;
+                    sceneScript.UIAmmo(activeWeapon.weaponAmmo);
+                    CmdShootRay();
+                }
             }
         }
-        
+
     }
 
+
     [Command]
-    private void CmdFire()
+    void CmdShootRay()
     {
-        Bullet bullet = Instantiate(weapon.bulletPrefab, weapon.fireSpawnPoint.position, rightHand. transform.rotation);
+        RpcFireWeapon();
+    }
+
+    [ClientRpc]
+    void RpcFireWeapon()
+    {
+        //bulletAudio.Play(); muzzleflash  etc
+        Bullet bullet = Instantiate(activeWeapon.bulletPrefab, activeWeapon.weaponfirePosition.position, activeWeapon.weaponfirePosition.rotation);
         bullet.SetWeaponHandler(this);
-        bullet.SetBulletDamage(weapon.Damage);
-        NetworkServer.Spawn(bullet.gameObject);
-        RpcOnFire();
+        bullet.SetBulletDamage(activeWeapon.Damage);
+        bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.right * activeWeapon.bulletSpeed;
+        Destroy(bullet, activeWeapon.bulletLife);
     }
 
-    [ServerCallback]
-    private void RpcOnFire()
+     private void SwapWeapon()
     {
-        //animator fire
-    }
+        selectedWeaponLocal += 1;
+        if (selectedWeaponLocal > weaponArray.Length)
+            selectedWeaponLocal = 1;
 
-    private void OnChangeWeapon(EquipedWeapon oldEquippedWeapon, EquipedWeapon newEquippedWeapon)
-    {
-        StartCoroutine(ChangeWeapon(newEquippedWeapon));
-    }
-
-    private IEnumerator ChangeWeapon(EquipedWeapon newEquippedWeapon)
-    {
-        while (rightHand.transform.childCount > 0)
-        {
-            Destroy(rightHand.transform.GetChild(0).gameObject);
-            yield return null;
-        }
-
-        switch (newEquippedWeapon)
-        {
-            case EquipedWeapon.beretta:
-                weapon = Instantiate(weaponList[0], rightHand.transform);
-                break;
-            case EquipedWeapon.ak47:
-                weapon = Instantiate(weaponList[1], rightHand.transform);
-                break;
-        }
-    }
-
-
-    private void SwapWeapon()
-    {
-        switch (equipedWeapon)
-        {
-            case EquipedWeapon.nothing:
-                CmdChangeEquipedWeapon(EquipedWeapon.beretta);
-                break;
-            case EquipedWeapon.beretta:
-                CmdChangeEquipedWeapon(EquipedWeapon.ak47);
-                break;
-            case EquipedWeapon.ak47:
-                CmdChangeEquipedWeapon(EquipedWeapon.beretta);
-                break;
-
-        }
+        CmdChangeActiveWeapon(selectedWeaponLocal);
     }
 
     [Command]
-    private void CmdChangeEquipedWeapon(EquipedWeapon selectedWeapon)
+    public void CmdChangeActiveWeapon(int newIndex)
     {
-        equipedWeapon = selectedWeapon;
+        activeWeaponSynced = newIndex;
     }
 }

@@ -4,58 +4,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : NetworkBehaviour
+public class Bullet : MonoBehaviour
 {
-    [SerializeField]
-    private float destroyAfter = 2f;
-
     [SerializeField]
     public Rigidbody2D rb2d;
 
     private int _damage = 1;
 
-    [SerializeField]
-    public float force = 1000f;
-
     private WeaponHandler _weaponHandler;
 
-    private bool _triggered = false;
-
-    public override void OnStartServer()
-    {
-        Invoke(nameof(DestroySelf), destroyAfter);
-    }
-
-    private void Start()
-    {
-        rb2d.AddForce(transform.right * force * Time.fixedDeltaTime, ForceMode2D.Impulse);
-    }
-
-    [Server]
-    void DestroySelf()
-    {
-        NetworkServer.Destroy(gameObject);
-    }
-
-    // ServerCallback because we don't want a warning if OnTriggerEnter is
-    // called on the client
-    [ServerCallback]
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isServer) return;
-        if (_triggered) return;
-        _triggered = true;
-
+        Destroy(gameObject);
         Enemy enemy = collision.collider.gameObject.GetComponent<Enemy>();
         if (enemy)
         {
-            Debug.Log("ENEMY HIT");
             enemy.GetComponent<Health>().TakeDamage(collision.transform.position ,_damage, _weaponHandler.gameObject.GetComponent<PlayerController>().PlayerNumber);
-            NetworkServer.Destroy(gameObject);
-        }
-        else if (collision.collider.gameObject.GetComponent<Bullet>() == null)
-        { 
-            NetworkServer.Destroy(gameObject);
         }
     }
 

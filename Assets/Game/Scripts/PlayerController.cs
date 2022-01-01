@@ -2,13 +2,6 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 
-public enum EquipedWeapon
-{
-    nothing = 0,
-    beretta = 1,
-    ak47 = 2
-}
-
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField]
@@ -87,7 +80,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        sceneScript = GameObject.FindObjectOfType<SceneScript>();
+        sceneScript = GameObject.Find("SceneReference").GetComponent<SceneReference>().sceneScript;
     }
 
     // Update is called once per frame
